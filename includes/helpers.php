@@ -11,7 +11,7 @@
     $result = curl_exec($c);   //Executing curl session
     curl_close($c);   //Closing curl session
     
-    return $results;
+    return $result;
  }
  
  function scrap($url)
@@ -21,37 +21,60 @@
    //For address
    $regex='@<strong class="flLt">Address\s*:\s*<[^>]*?>\s*<[^>]*?>\s*([^<]*?)\s*</span>@';
    preg_match($regex,$page,$addr);
-  
+   $addr = $addr[1];  
+   
+   
    //For year of establishment
    $regex = '@<label>Established in (\d+)\s*</label>@';
    preg_match($regex,$page,$year);
-   if($year == null)
-   $year[1] = null;
+   if($year != null)
+      $year = $year[1];
   
+   
    //For Website if any
    $regex = '@<strong class="flLt">Website\s*:\s*<[^>]*?>\s*<[^>]*?>\s*<[^>]*?>\s*([^<]*?)\s*</a>@';
    preg_match($regex,$page,$web);
-   if($web == null)
-   $web[1] = null;
-  
+   if($web != null)
+     $web = $web[1];
+   
+   
   
    //For courses
    $regex = '@<a\s*uniqueattr="LISTING_INSTITUTE_PAGES/CO_LINK_CLICK"\s*href="[^>]*?>([^<]*?)</a>\s*<span>([^<]*?)</span>@';
    preg_match_all($regex,$page,$courses);
+   $n = count($courses[1]);
    
-   foreach($courses[1] as $course)
+   for($i=0 ; $i < $n ; $i++)
    {
-      $course += $courses[2];
+      $courses[1][$i] .= $courses[2][$i];
    }
-   implode("+",$courses[1]);     
+   $courses = implode("+",$courses[1]);     
   
-   //For Infrastructure
+  
+  
+   //For Infrastructure facility if any
    $regex = '@<span\s*class="flLt"\s*title="Infrastructure / Teaching Facilities"\s*>[<>\w\s"=&;:,/_-]*?<ul>\s*([<>/\w\s"&;,_-]*?)</ul>@';
    preg_match($regex,$page,$facilities);
-   $regex = '@<li>([<>/\w\s,&;_-]*?)</li>@';
-   preg_match_all($regex,$facilities[1],$facility);
    
-   var_dump($addr[1],$year[1],$web[1],$courses[1],$facility);
+   if($facilities == null)   //If no facility
+   $facility = null;
+   
+   else
+   {
+    $regex = '@<li>([<>/\w\s,&;_-]*?)</li>@';
+   preg_match_all($regex,$facilities[1],$facility);
+      
+   //To strip span tag if any
+   $n =count($facility[1]);
+   for( $i=0; $i<$n ; $i++)
+   {
+     $facility[1][$i] = preg_replace('@(<span>|</span>|&nbsp;)@',' ',$facility[1][$i]);
+   }  
+   
+   $facility = implode("+",$facility[1]);
+   }
+   
+   var_dump($addr,$year,$web,$courses,$facility);
    }
 
 ?>   
