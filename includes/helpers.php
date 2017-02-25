@@ -14,6 +14,31 @@
     return $result;
  }
  
+ 
+ //This function is to get all colleges detail page url
+ function myscrap()
+ {
+  $url = $_GET['url'];
+  $page = curl_get_file($url);
+ $regex ='@<a\s*class="institute-title-clr"\s*href="([^"]*?)"\s*title="([^"]*?)"\s*>@';
+ preg_match_all($regex,$page,$match);
+ if($match == null)
+ echo "No match found!!";
+ else
+ {
+   $url = $match[1][15];
+   var_dump($match[2][15]); //$match[2] contains College name
+   $data = scrap($url);
+   var_dump($data);
+   
+  }
+ }
+ 
+
+
+/***
+ This function is used to scrap individual college detail
+ ***/ 
  function scrap($url)
  {
     $page = curl_get_file($url);   //Contents of individual college page
@@ -40,7 +65,7 @@
    
   
    //For courses
-   $regex = '@<a\s*uniqueattr="LISTING_INSTITUTE_PAGES/CO_LINK_CLICK"\s*href="[^>]*?>([^<]*?)</a>\s*<span>([^<]*?)</span>@';
+   $regex = '@<a\s*uniqueattr="LISTING_INSTITUTE_PAGES/CO_LINK_CLICK"\s*href="[^>]*?>([^<]*?)</a>\s*<span>(\d)[^<]*?</span>@';
    preg_match_all($regex,$page,$courses);
    $n = count($courses[1]);
    
@@ -53,7 +78,7 @@
   
   
    //For Infrastructure facility if any
-   $regex = '@<span\s*class="flLt"\s*title="Infrastructure / Teaching Facilities"\s*>[<>\w\s"=&;:,/_-]*?<ul>\s*([<>/\w\s"&;,_-]*?)</ul>@';
+   $regex = '@<span\s*class="flLt"\s*title="Infrastructure / Teaching Facilities"\s*>[<>\w\s"=&;.:,/_-]*?<ul>\s*([<>/\w\s"&.;,_-]*?)</ul>@';
    preg_match($regex,$page,$facilities);
    
    if($facilities == null)   //If no facility
@@ -73,8 +98,9 @@
    
    $facility = implode("+",$facility[1]);
    }
+   $data = array("addr"=> $addr,"year"=> $year,"web"=> $web,"courses"=> $courses,"facility"=> $facility);
    
-   var_dump($addr,$year,$web,$courses,$facility);
+   return $data;
    }
 
 ?>   
