@@ -2,6 +2,7 @@
 
 <?php
   
+  require_once("helpers.php");
      
   $json= file_get_contents("../config.json");
  
@@ -17,8 +18,7 @@
   //Select database
   mysql_select_db($db["database"]["dbname"],$link) or die("Could not select database");
   
-  //To truncate data from table i.e previous scrapped data
-  mysql_query('TRUNCATE TABLE College');
+
   
 ?>      
 

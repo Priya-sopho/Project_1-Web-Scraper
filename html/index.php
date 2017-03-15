@@ -1,17 +1,7 @@
-<!Doctype html>
-<html>
-<head>
-<title>Web Scraper</title>
-</head>
-<body>
-<h1>Hola!!<br>Let's Scrap some data :></h1>
 <?php
  require_once('../includes/helpers.php');
+ 
+ //render form to input url
+ render("input_url.php",["title"=>"scrap"]);
  ?>
-<form method="get" action="/scrap.php">
- <input type="text" name="url" placeholder="www.shiksha.com/b-tech/colleges/b-tech-colleges-city">
- <button type="submit" name="submit">Scrap</button>
-</form> 
-<div id ="data"></div>
-</body>
-</html> 
+

@@ -3,7 +3,9 @@
 
   require_once('config.php');
 
- //Function to make get request using url
+ /***
+   Function to make get request using url
+   **/
  function curl_get_file($url)
  {
     $c = curl_init();  //Initialize curl session 
@@ -45,6 +47,9 @@
   else 
   return $u[1];    
  }
+
+
+
  
   /***
    This is to find url of prev page if any
@@ -61,6 +66,8 @@
   else 
   return $u[1];
  }    
+
+
 
    /***
   This function is used to scrap prev pages
@@ -87,6 +94,8 @@
   return $u[1];    
  }
 
+
+
 /***
  This function is used to scrap individual college detail
  ***/ 
@@ -112,10 +121,63 @@
    else
     $r = (int)$review[1];
      
-   
-   var_dump($match[1],$match[2],$f,$r);
+   //Insert data into database
+   mysql_query("INSERT INTO College Values({$match[1]},{$match[2]},{$f},{$r}");
  }  
    
+
+
+
+
+   /**
+     * Renders view, passing in values.
+     */
+    function render($view, $values = [])
+    {
+        // if view exists, render it
+        if (file_exists("../views/{$view}"))
+        {
+            // extract variables into local scope
+            extract($values);
+
+            // render view (between header and footer)
+            require("../views/header.php");
+            require("../views/{$view}");
+            require("../views/footer.php");
+            exit;
+        }
+
+        // else error
+        else
+        {
+            echo ("Invalid view: {$view}");
+        }
+    }
+
+  
+  /***
+    To display apolgies
+  **/
+   function apologize($message)
+    {
+        render("apology.php", ["message" => $message]);
+    }
+    
+    
+    
+  /***
+   redirect to given location
+  **/
+  function redirect($location)
+    {
+        if (headers_sent($file, $line))
+        {
+           echo ("HTTP headers already sent at {$file}:{$line}");
+        }
+        header("Location: {$location}");
+        exit;
+    }
+
 
 ?>   
      
