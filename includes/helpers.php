@@ -1,4 +1,8 @@
 <?php
+
+
+  require_once('config.php');
+
  //Function to make get request using url
  function curl_get_file($url)
  {
