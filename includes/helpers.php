@@ -15,93 +15,103 @@
  }
  
  
- //This function is to get all colleges detail page url
- function myscrap()
+ 
+ 
+ /***
+  This function is used to scrap next pages
+  **/
+ function scrap_page_next($url)
  {
-  $url = $_GET['url'];
   $page = curl_get_file($url);
- $regex ='@<a\s*class="institute-title-clr"\s*href="([^"]*?)"\s*title="([^"]*?)"\s*>@';
- preg_match_all($regex,$page,$match);
- if($match == null)
- echo "No match found!!";
- else
- {
-   $url = $match[1][15];
-   var_dump($match[2][15]); //$match[2] contains College name
-   $data = scrap($url);
-   var_dump($data);
-   
+  $regex = '@(?s)<h2.*?Add to Compare@';
+  preg_match_all($regex,$page,$match);
+  if($match == null)
+  echo "No match found!!";
+  else
+  {
+   foreach($match[0] as $m)
+    scrap($m);
   }
+  
+  //To find next url
+  $regex = '@<link\s*rel="next"\s*href="(.*)?"@';
+  preg_match($regex,$page,$u);
+  if($u == null)
+   return null;
+  else 
+  return $u[1];    
  }
  
+  /***
+   This is to find url of prev page if any
+   **/
+ function prev_url($url)
+  {
+ 
+   $page = curl_get_file($url);
+   //To find prev url
+  $regex = '@<link\s*rel="prev"\s*href="(.*)?"@';
+  preg_match($regex,$page,$u);
+  if($u == null)
+   return null;
+  else 
+  return $u[1];
+ }    
 
+   /***
+  This function is used to scrap prev pages
+  **/
+ function scrap_page_prev($url)
+ {
+  $page = curl_get_file($url);
+  $regex = '@(?s)<h2.*?Add to Compare@';
+  preg_match_all($regex,$page,$match);
+  if($match == null)
+  echo "No match found!!";
+  else
+  {
+   foreach($match[0] as $m)
+    scrap($m);
+  }
+  
+  //To find prev url
+  $regex = '@<link\s*rel="prev"\s*href="(.*)?"@';
+  preg_match($regex,$page,$u);
+  if($u == null)
+   return null;
+  else 
+  return $u[1];    
+ }
 
 /***
  This function is used to scrap individual college detail
  ***/ 
- function scrap($url)
+ function scrap($page)
  {
-    $page = curl_get_file($url);   //Contents of individual college page
-  
-   //For address
-   $regex='@<strong class="flLt">Address\s*:\s*<[^>]*?>\s*<[^>]*?>\s*([^<]*?)\s*</span>@';
-   preg_match($regex,$page,$addr);
-   $addr = $addr[1];  
    
-   
-   //For year of establishment
-   $regex = '@<label>Established in (\d+)\s*</label>@';
-   preg_match($regex,$page,$year);
-   if($year != null)
-      $year = $year[1];
-  
-   
-   //For Website if any
-   $regex = '@<strong class="flLt">Website\s*:\s*<[^>]*?>\s*<[^>]*?>\s*<[^>]*?>\s*([^<]*?)\s*</a>@';
-   preg_match($regex,$page,$web);
-   if($web != null)
-     $web = $web[1];
-   
-   
-  
-   //For courses
-   $regex = '@<a\s*uniqueattr="LISTING_INSTITUTE_PAGES/CO_LINK_CLICK"\s*href="[^>]*?>([^<]*?)</a>\s*<span>(\d)[^<]*?</span>@';
-   preg_match_all($regex,$page,$courses);
-   $n = count($courses[1]);
-   
-   for($i=0 ; $i < $n ; $i++)
-   {
-      $courses[1][$i] .= $courses[2][$i];
-   }
-   $courses = implode("+",$courses[1]);     
+   //For College Name and Location 
+   $regex = '@class="tuple-clg-heading">\s*<a[^>]*?>([^<]*?)</a>\s*<p>\s*\|\s*([^<]*?)</p>@';  //</h2>\s*(<ul[\w\s\d";_=<>/,-]*?</ul>)?@';
+    preg_match($regex,$page,$match);
   
   
-  
-   //For Infrastructure facility if any
-   $regex = '@<span\s*class="flLt"\s*title="Infrastructure / Teaching Facilities"\s*>[<>\w\s"=&;.:,/_-]*?<ul>\s*([<>/\w\s"&.;,_-]*?)</ul>@';
-   preg_match($regex,$page,$facilities);
+   //For facility if any
+   $regex = '@<h3>([^<]*?)</h3>@';
+   preg_match_all($regex,$page,$facility);  
+   $f = implode("+",$facility[1]);
    
-   if($facilities == null)   //If no facility
-   $facility = null;
    
+   //For reveiew if any
+   $regex = '@<b>(\d+)</b><a\s*target=".*?"\s*type="reviews"@';
+   preg_match($regex,$page,$review);
+   if($review == NULL)
+    $r = 0;
    else
-   {
-    $regex = '@<li>([<>/\w\s,&;_-]*?)</li>@';
-   preg_match_all($regex,$facilities[1],$facility);
-      
-   //To strip span tag if any
-   $n =count($facility[1]);
-   for( $i=0; $i<$n ; $i++)
-   {
-     $facility[1][$i] = preg_replace('@(<span>|</span>|&nbsp;)@',' ',$facility[1][$i]);
-   }  
+    $r = (int)$review[1];
+     
    
-   $facility = implode("+",$facility[1]);
-   }
-   $data = array("addr"=> $addr,"year"=> $year,"web"=> $web,"courses"=> $courses,"facility"=> $facility);
+   var_dump($match[1],$match[2],$f,$r);
+ }  
    
-   return $data;
-   }
 
 ?>   
      

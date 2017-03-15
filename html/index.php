@@ -9,7 +9,7 @@
  require_once('../includes/helpers.php');
  ?>
 <form method="get" action="/scrap.php">
- <input type="text" name="url" placeholder="http://engineering.shiksha.com...">
+ <input type="text" name="url" placeholder="www.shiksha.com/b-tech/colleges/b-tech-colleges-city">
  <button type="submit" name="submit">Scrap</button>
 </form> 
 <div id ="data"></div>
