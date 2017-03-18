@@ -23,21 +23,19 @@
         { 
           //To truncate data from table i.e previous scrapped data
            mysql_query('TRUNCATE TABLE College');
-           
              $url = $_POST["url"];
              $purl = prev_url($url);   //To get prev url
              
            while($url)
             {
-                $url = scrap_page_next($url);
+               $url = scrap_page_next($url);
              }  
 
-         while($purl)
+           while($purl)
            {
              $purl = scrap_page_prev($purl);
            } 
- 
-          redirect("display.php");
+         render("display_form.php",["title" => "display"]);
          }   
 
    }

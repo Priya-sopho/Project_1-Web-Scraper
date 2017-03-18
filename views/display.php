@@ -15,7 +15,7 @@
            print("<th>Review</th>");
          print("</tr>");
          
-         foreach ($row as $r)
+         while($r = mysql_fetch_assoc($row))
          {
            print("<tr>");
               print("<td>".$r["Name"]."</td>");

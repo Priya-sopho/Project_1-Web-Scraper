@@ -110,7 +110,7 @@
    //For facility if any
    $regex = '@<h3>([^<]*?)</h3>@';
    preg_match_all($regex,$page,$facility);  
-   $f = implode("+",$facility[1]);
+   $f = mysql_real_escape_string(implode("+",$facility[1]));
    
    
    //For reveiew if any
@@ -120,9 +120,11 @@
     $r = 0;
    else
     $r = (int)$review[1];
+   $name = mysql_real_escape_string($match[1]);
+   $location = mysql_real_escape_string($match[2]); 
      
-   //Insert data into database
-   mysql_query("INSERT INTO College Values({$match[1]},{$match[2]},{$f},{$r}");
+  //Insert data into database
+   mysql_query("INSERT INTO College Values('$name','$location','$f',$r)") or die(mysql_error());
  }  
    
 
