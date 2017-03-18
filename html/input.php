@@ -26,7 +26,7 @@
            
              $url = $_POST["url"];
              $purl = prev_url($url);   //To get prev url
-               
+             
            while($url)
             {
                 $url = scrap_page_next($url);

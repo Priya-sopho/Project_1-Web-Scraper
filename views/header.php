@@ -10,7 +10,7 @@
         <link href="/css/styles.css" rel="stylesheet"/>
 
         <?php if (isset($title)): ?>
-            <title>Web Scraper<?= htmlspecialchars($title) ?></title>
+            <title>Web Scraper : <?= htmlspecialchars($title) ?></title>
         <?php else: ?>
             <title>Web Scraper</title>
         <?php endif ?>
@@ -31,7 +31,7 @@
 
             <div id="top">
                 <div>
-                    <a href="/"><img alt="Web Scraper"/></a>
+                    <a href="/"><img alt="Web Scraper " src="img/scrap.png" /></a>
                 </div>
                
             <div id="middle">
