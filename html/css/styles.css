@@ -1,0 +1,89 @@
+/*** Web Scraper
+  Global Css
+**/  
+
+
+
+.container
+{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#top
+{
+    /* surround with whitespace */
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#top .nav
+{
+    /* center navigation pills */
+    display: inline-block;
+}
+
+#middle .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: 70%;
+    text-align: center;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
+    background: #aaa;
+    color: white;
+    
+}
+
+#overview 
+{
+   border-spacing: 20px;
+   width : 100%;
+   border-collapse : separate;
+}
+
+#overview, td
+{
+   color : solid black;
+   border-bottom: 1px solid black;
+   
+}
+
+#overview, th
+{
+   background-color : #E4E5F0;
+   border-bottom : 2px solid #ff0000;
+   text-align : center;
+}
+
+.button
+{
+    text-align : center;
+    font-size : 15px;
+    background-color: #E4E5F0;
+    padding: 20px;
+}
+
+.button:hover
+{
+    background-color: #B3B7E3;
+ }                         
+ 
+
+
+#message
+{
+    font-size : 20px;
+}                    
