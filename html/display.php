@@ -7,7 +7,7 @@
     $row = mysql_query('SELECT * FROM College') or die(mysql_error());
     
     if(mysql_num_rows($row) == 0)
-    echo("Nothing to display");
+    apologize("Nothing to display!!No records for this url.Click on logo to scrape again");
     
     else
     {

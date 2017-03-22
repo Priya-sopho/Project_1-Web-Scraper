@@ -2,7 +2,7 @@
     
     <div id="message">
        <?php 
-           print("Your Scraped data is as follow\n");
+           print("Your Scraped data is as follows")."<br>";
            print mysql_num_rows($row) . " results found";
          ?>
     </div>

@@ -1,4 +1,4 @@
-<!-- This file is to connect database and truncate all the previous data stored-->
+<!-- This file is to connect database-->
 
 <?php
   

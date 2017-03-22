@@ -158,7 +158,7 @@
 
   
   /***
-    To display apolgies
+    To display apologies
   **/
    function apologize($message)
     {
