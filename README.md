@@ -30,10 +30,17 @@ Files and folders:
 
 To do to run the app:
  1. update config.json (username and password ) 
- 2. create database named "shiksha" and import College.sql
- 3. start apache server 
+ 2. start mysql if not running ( $ mysql50 start ) 
+ 3. create database named "shiksha" and import College.sql in phpmyadmin 
+ 4. start apache server 
    (apache50 start ~workspace/Project_1-Web-Scraper/html)
- 4.open web server 
- 5.Now you should be on page to input url 
- 6.Enter url: 
-   
+ 5.open web server 
+ 6.Now you should be on page to input url 
+ 7.Enter url: www.shiksha.com/b-tech/colleges/b-tech-colleges-<city>-[p]
+    where city is the name of city for which you want to scrape data and p is optional page number
+ 8.Click on scrap button to scrap.
+ 9.Data will be scrapped, be patient
+ 10.Now it would lead to you page with display button to view the scrapped data.
+ 11.Clicking on logo will take you back to input url page.
+ 
+    
